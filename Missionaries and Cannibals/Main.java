@@ -5,7 +5,7 @@ import java.util.LinkedList;
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println("Missionaries and Cannibals Problem");
+        System.out.println("Missionaries and Cannibals Problem using BFS");
 
         int missionaries = 3;
         int cannibals = 3;
@@ -13,10 +13,24 @@ public class Main {
 
         State initialState = new State(cannibals, missionaries, boatPosition, 0, 0);
 
-        BFS search = new BFS();
-        State solution = search.bfs(initialState);
+        BFS searchBFS = new BFS();
+        State solutionBFS = searchBFS.bfs(initialState);
 
-        print(solution);
+        print(solutionBFS);
+
+        System.out.println("\n\nMissionaries and Cannibals Problem using DFS(Depth Bounded Search)");
+
+        DLS searchDLS = new DLS();
+        State solutionDLS = searchDLS.dls(initialState);
+
+        print(solutionDLS);
+
+        System.out.println("\n\nMissionaries and Cannibals Problem using DFS(Iterative Deepening DFS)");
+
+        IDDFS searchIDDFS = new IDDFS();
+        State solutionIDDFS = searchIDDFS.iddfs(initialState);
+
+        print(solutionIDDFS);
     }
 
     public static void print(State solution) {
