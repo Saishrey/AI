@@ -34,12 +34,7 @@ class Board:
 
 
 def copy_board(current_board):
-    new_board = [[0 for col in range(3)] for row in range(3)]
-
-    for row in range(3):
-        for col in range(3):
-            new_board[row][col] = current_board[row][col]
-    return new_board
+    return [[current_board[row][col] for col in range(3)] for row in range(3)]
 
 
 def testAndAdd(successors, current_state, other, b_row, b_col):
