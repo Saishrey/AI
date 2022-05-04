@@ -37,6 +37,10 @@ public class BestFirstSearch {
     }
 }
 
+/**
+ * Using misplaced tiles
+ */
+
 class BoardComparator implements Comparator<Board> {
 
     @Override
@@ -51,3 +55,21 @@ class BoardComparator implements Comparator<Board> {
         return 0;
     }
 }
+
+/**
+ * Using manhattan distance
+ */
+//class BoardComparator implements Comparator<Board> {
+//
+//    @Override
+//    public int compare(Board b1, Board b2) {
+//        if(b1.getManhattanDistance() > b2.getManhattanDistance()) {
+//            return 1;
+//        }
+//        else if(b1.getManhattanDistance() < b2.getManhattanDistance()) {
+//            return -1;
+//        }
+//
+//        return 0;
+//    }
+//}

@@ -10,6 +10,7 @@ public class Board {
     private final int blankTileIndex_row;
     private final int blankTileIndex_col;
     private int misplacedTilesCount;
+    private int manhattanDistance;
     String blankTileStatus;
 
     private Board parentState;
@@ -104,8 +105,36 @@ public class Board {
         misplacedTilesCount = count;
     }
 
+    private void setManhattanDistance() {
+        int sum = 0;
+        for(int i = 0; i < 3; i++) {
+            for(int j = 0; j < 3; j++) {
+                int target = goalBoard[i][j];
+                for(int row = 0; row < 3; row++) {
+                    boolean flag = false;
+                    for(int col = 0; col < 3; col++) {
+                        if(currentBoard[row][col] == target) {
+                            sum += Math.abs(i-row) + Math.abs(j-col);
+                            flag = true;
+                            break;
+                        }
+                    }
+                    if(flag) {
+                        break;
+                    }
+                }
+            }
+        }
+        manhattanDistance = sum;
+    }
+
     public int getMisplacedTilesCount() {
         return misplacedTilesCount;
+    }
+
+
+    public int getManhattanDistance() {
+        return manhattanDistance;
     }
 
     public String getBlankTileStatus() {
