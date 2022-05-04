@@ -9,6 +9,7 @@ class Board:
         self.blankTileIndex_col = blankTileIndex_col
         self.blankTileStatus = blankTileStatus
         self.misplacedTilesCount = 0
+        self.manhattan_distance = 0
         self.parent_state = None
 
     def is_goal(self):
@@ -31,6 +32,22 @@ class Board:
                     count += 1
 
         self.misplacedTilesCount = count
+
+    def set_manhattan_distance(self):
+        sum = 0
+        for i in range(3):
+            for j in range(3):
+                target = self.goalBoard[i][j]
+                for row in range(3):
+                    flag = False
+                    for col in range(3):
+                        if self.currentBoard[row][col]:
+                            sum += abs(i-row) + abs(j-col)
+                            flag = True
+                            break
+                    if flag:
+                        break
+        self.manhattan_distance = sum
 
 
 def copy_board(current_board):
@@ -69,11 +86,19 @@ def get_successors(current_state):
                current_state.blankTileIndex_col)
     return successors
 
+# Using misplaced tiles
+# def compare(b1, b2):
+#     if b1.misplacedTilesCount > b2.misplacedTilesCount:
+#         return 1
+#     elif b1.misplacedTilesCount < b2.misplacedTilesCount:
+#         return -1
+#     return 0
 
+# Using Manhattan distance
 def compare(b1, b2):
-    if b1.misplacedTilesCount > b2.misplacedTilesCount:
+    if b1.manhattan_distance > b2.manhattan_distance:
         return 1
-    elif b1.misplacedTilesCount < b2.misplacedTilesCount:
+    elif b1.manhattan_distance < b2.manhattan_distance:
         return -1
     return 0
 
