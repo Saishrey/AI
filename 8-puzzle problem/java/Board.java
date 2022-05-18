@@ -83,6 +83,7 @@ public class Board {
             child.swapTiles(this.blankTileIndex_row, this.blankTileIndex_col);
             child.setParentState(this);
             child.setMisplacedTilesCount();
+            child.setManhattanDistance();
             successors.add(child);
 
         }
@@ -105,7 +106,7 @@ public class Board {
         misplacedTilesCount = count;
     }
 
-    private void setManhattanDistance() {
+    public void setManhattanDistance() {
         int sum = 0;
         for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 3; j++) {

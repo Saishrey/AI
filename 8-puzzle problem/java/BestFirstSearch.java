@@ -9,6 +9,7 @@ public class BestFirstSearch {
         }
 
         initialState.setMisplacedTilesCount();
+        initialState.setManhattanDistance();
 
         HashSet<List<Integer>> visited = new HashSet<>();
         PriorityQueue<Board> priorityQueue = new PriorityQueue<>(new BoardComparator());
@@ -18,7 +19,6 @@ public class BestFirstSearch {
         while(!priorityQueue.isEmpty()) {
             Board currentState = priorityQueue.poll();
             visited.add(currentState.getListImplementationOfBoard());
-
             List<Board> successors = currentState.getSuccessors();
 
             for(Board state : successors) {
@@ -40,36 +40,35 @@ public class BestFirstSearch {
 /**
  * Using misplaced tiles
  */
-
-class BoardComparator implements Comparator<Board> {
-
-    @Override
-    public int compare(Board b1, Board b2) {
-        if(b1.getMisplacedTilesCount() > b2.getMisplacedTilesCount()) {
-            return 1;
-        }
-        else if(b1.getMisplacedTilesCount() < b2.getMisplacedTilesCount()) {
-            return -1;
-        }
-
-        return 0;
-    }
-}
-
-/**
- * Using manhattan distance
- */
+//
 //class BoardComparator implements Comparator<Board> {
 //
 //    @Override
 //    public int compare(Board b1, Board b2) {
-//        if(b1.getManhattanDistance() > b2.getManhattanDistance()) {
+//        if(b1.getMisplacedTilesCount() > b2.getMisplacedTilesCount()) {
 //            return 1;
 //        }
-//        else if(b1.getManhattanDistance() < b2.getManhattanDistance()) {
+//        else if(b1.getMisplacedTilesCount() < b2.getMisplacedTilesCount()) {
 //            return -1;
 //        }
 //
 //        return 0;
 //    }
 //}
+/**
+ * Using manhattan distance
+ */
+class BoardComparator implements Comparator<Board> {
+
+    @Override
+    public int compare(Board b1, Board b2) {
+        if(b1.getManhattanDistance() > b2.getManhattanDistance()) {
+            return 1;
+        }
+        else if(b1.getManhattanDistance() < b2.getManhattanDistance()) {
+            return -1;
+        }
+
+        return 0;
+    }
+}
