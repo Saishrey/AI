@@ -59,7 +59,6 @@ def testAndAdd(successors, current_state, other, b_row, b_col):
         other.swapTiles(b_row, b_col)
         other.parent_state = current_state
         other.setMisplacedTilesCount()
-        other.set_manhattan_distance()
         successors.append(other)
 
 
@@ -109,7 +108,6 @@ def best_first_search(initial_state):
         return initial_state
 
     initial_state.setMisplacedTilesCount()
-    initial_state.set_manhattan_distance()
     visited = list()
     frontier = list()
     frontier.append(initial_state)
@@ -124,7 +122,7 @@ def best_first_search(initial_state):
                     return child
                 frontier.append(child)
 
-        sorted(frontier, key=cmp_to_key(compare))
+        frontier = sorted(frontier, key=cmp_to_key(compare))
     return None
 
 
@@ -141,9 +139,6 @@ def print_board(board):
 
 
 def print_solution(solution):
-    if(solution == None):
-        print("No solution found.")
-
     path = list()
     path.append(solution)
     parent_state = solution.parent_state
@@ -157,10 +152,11 @@ def print_solution(solution):
         print_board(state.currentBoard)
 
 
-initial_board = [[6, 0, 2], [1, 8, 4], [7, 3, 5]]
+# initial_board = [[6, 0, 2], [1, 8, 4], [7, 3, 5]]
+initial_board = [[1,2,3],[4,8,0],[7,6,5]]
+goal_board = [[1,2,3],[4,5,6],[7,8,0]]
+# goal_board = [[1, 2, 3], [8, 0, 4], [7, 6, 5]]
 
-goal_board = [[1, 2, 3], [8, 0, 4], [7, 6, 5]]
-
-ini_state = Board(initial_board, 0, 1, "Start", goal_board)
+ini_state = Board(initial_board, 1, 2, "Start", goal_board)
 
 print_solution(best_first_search(ini_state))
