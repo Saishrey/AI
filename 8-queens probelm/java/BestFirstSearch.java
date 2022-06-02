@@ -17,11 +17,8 @@ public class BestFirstSearch {
         HashSet<List<Integer>> visited = new HashSet<>();
         PriorityQueue<State> priorityQueue = new PriorityQueue<>(new StateComparator());
         priorityQueue.add(initialState);
-        int count = 0;
-        while(count < 10 && !priorityQueue.isEmpty()) {
-            count++;
+        while(!priorityQueue.isEmpty()) {
             State currentState = priorityQueue.poll();
-            System.out.println(Arrays.toString(currentState.getOrientation()) + "\n" + currentState.getFitness());
 
             visited.add(currentState.getListImplementation());
             List<State> successors = currentState.getSuccessors();
