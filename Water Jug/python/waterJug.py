@@ -19,13 +19,15 @@ def successors(cur_state):
     children = []
 
     # Fill jug 1
-    new_state = State(cur_state.jug1Capacity, cur_state.jug2Capacity, cur_state.targetCapacity, cur_state.jug1Capacity, cur_state.currentJ2)
+    new_state = State(cur_state.jug1Capacity, cur_state.jug2Capacity, cur_state.targetCapacity, cur_state.jug1Capacity,
+                      cur_state.currentJ2)
     if new_state.is_valid():
         new_state.parent = cur_state
         children.append(new_state)
 
     # Fill jug 2
-    new_state = State(cur_state.jug1Capacity, cur_state.jug2Capacity, cur_state.targetCapacity, cur_state.currentJ1, cur_state.jug2Capacity)
+    new_state = State(cur_state.jug1Capacity, cur_state.jug2Capacity, cur_state.targetCapacity, cur_state.currentJ1,
+                      cur_state.jug2Capacity)
     if new_state.is_valid():
         new_state.parent = cur_state
         children.append(new_state)
@@ -44,14 +46,16 @@ def successors(cur_state):
 
     # Jug 1 to Jug 2
     new_state = State(cur_state.jug1Capacity, cur_state.jug2Capacity, cur_state.targetCapacity, \
-                      max(0, cur_state.currentJ1 + cur_state.currentJ2 - cur_state.jug2Capacity), min(cur_state.currentJ1 + cur_state.currentJ2, cur_state.jug2Capacity))
+                      max(0, cur_state.currentJ1 + cur_state.currentJ2 - cur_state.jug2Capacity),
+                      min(cur_state.currentJ1 + cur_state.currentJ2, cur_state.jug2Capacity))
     if new_state.is_valid():
         new_state.parent = cur_state
         children.append(new_state)
 
     # Jug 2 to Jug 1
     new_state = State(cur_state.jug1Capacity, cur_state.jug2Capacity, cur_state.targetCapacity, \
-                      min(cur_state.currentJ1 + cur_state.currentJ2, cur_state.jug1Capacity), max(0, cur_state.currentJ1 + cur_state.currentJ2 - cur_state.jug1Capacity))
+                      min(cur_state.currentJ1 + cur_state.currentJ2, cur_state.jug1Capacity),
+                      max(0, cur_state.currentJ1 + cur_state.currentJ2 - cur_state.jug1Capacity))
     if new_state.is_valid():
         new_state.parent = cur_state
         children.append(new_state)
@@ -81,7 +85,7 @@ def iterative_deepening_depth_first_search(initial_state):
     soln = None
     depthLevel = 0
 
-    while soln == None:
+    while soln is None:
         soln = dfs(initial_state, depthLevel)
         depthLevel += 1
 
@@ -116,17 +120,24 @@ def print_solution(solution):
         print("(" + str(state.currentJ1) + ", " + str(state.currentJ2) + ")")
 
 
-print("Water_Jug_Problem:")
-jug1Capacity = int(input("JUG 1 capacity: "))
-jug2Capacity = int(input("JUG 2 capacity: "))
-targetCapacity = int(input("Target capacity: "))
+def main():
+    print("Water_Jug_Problem:")
+    jug1Capacity = int(input("JUG 1 capacity: "))
+    jug2Capacity = int(input("JUG 2 capacity: "))
+    targetCapacity = int(input("Target capacity: "))
 
-initial_state = State(jug1Capacity, jug2Capacity, targetCapacity, 0, 0)
+    if targetCapacity > max(jug1Capacity, jug2Capacity):
+        print("No solution")
+    else:
+        initial_state = State(jug1Capacity, jug2Capacity, targetCapacity, 0, 0)
 
-print("Using BFS")
-solution = breadth_first_search(initial_state)
-print_solution(solution)
+        print("Using BFS")
+        solution = breadth_first_search(initial_state)
+        print_solution(solution)
 
-print("\nUsing DFS")
-solution = iterative_deepening_depth_first_search(initial_state)
-print_solution(solution)
+        print("\nUsing DFS")
+        solution = iterative_deepening_depth_first_search(initial_state)
+        print_solution(solution)
+
+
+main()
