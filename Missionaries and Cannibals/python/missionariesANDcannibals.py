@@ -12,9 +12,9 @@ class State:
 
     def is_valid(self):
         return self.missionaryLeft >= 0 and self.missionaryRight >= 0 \
-                and self.cannibalLeft >= 0 and self.cannibalRight >= 0 \
-                and (self.missionaryLeft == 0 or self.missionaryLeft >= self.cannibalLeft) \
-                and (self.missionaryRight == 0 or self.missionaryRight >= self.cannibalRight)
+               and self.cannibalLeft >= 0 and self.cannibalRight >= 0 \
+               and (self.missionaryLeft == 0 or self.missionaryLeft >= self.cannibalLeft) \
+               and (self.missionaryRight == 0 or self.missionaryRight >= self.cannibalRight)
 
 
 def successors(cur_state):
@@ -139,19 +139,23 @@ def print_solution(solution):
     for t in range(len(path)):
         state = path[len(path) - t - 1]
         print("(" + str(state.cannibalLeft) + "," + str(state.missionaryLeft) \
-        + "," + state.boatPosition + "," + str(state.cannibalRight) + "," + \
-        str(state.missionaryRight) + ")")
+              + "," + state.boatPosition + "," + str(state.cannibalRight) + "," + \
+              str(state.missionaryRight) + ")")
 
 
-print("Missionaries and Cannibals solution:")
-print("(cannibalLeft,missionaryLeft,boat,cannibalRight,missionaryRight)")
+def main():
+    print("Missionaries and Cannibals solution:")
+    print("(cannibalLeft,missionaryLeft,boat,cannibalRight,missionaryRight)")
 
-initial_state = State(3, 3, 'left', 0, 0)
+    initial_state = State(3, 3, 'left', 0, 0)
 
-print("Using BFS")
-solution = breadth_first_search(initial_state)
-print_solution(solution)
+    print("Using BFS")
+    solution = breadth_first_search(initial_state)
+    print_solution(solution)
 
-print("\nUsing DFS")
-solution = iterative_deepening_depth_first_search(initial_state)
-print_solution(solution)
+    print("\nUsing DFS")
+    solution = iterative_deepening_depth_first_search(initial_state)
+    print_solution(solution)
+
+
+main()
