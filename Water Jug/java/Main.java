@@ -24,6 +24,11 @@ public class Main {
 
          } while(jug1Capacity < 0 && jug2Capacity < 0 && targetCapacity < 0);
 
+        if(targetCapacity > Math.max(jug1Capacity, jug2Capacity)) {
+            System.out.println("No solution");
+            return;
+        }
+        
         System.out.println("JUG 1 capacity: " + jug1Capacity);
         System.out.println("JUG 2 capacity: " + jug2Capacity);
         System.out.println("Target capacity: " + targetCapacity);
