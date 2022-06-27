@@ -10,10 +10,10 @@ class State:
 
     def set_fitness(self):
         noOfClashes = 0
-        for i in range(MAX_SIZE-1):
-            up = MAX_SIZE - self.orientation[i]-1
-            down = MAX_SIZE - self.orientation[i]+1
-            for j in range(i+1, MAX_SIZE):
+        for i in range(MAX_SIZE - 1):
+            up = MAX_SIZE - self.orientation[i] - 1
+            down = MAX_SIZE - self.orientation[i] + 1
+            for j in range(i + 1, MAX_SIZE):
                 if up < 0 and down >= MAX_SIZE:
                     break
 
@@ -35,9 +35,9 @@ class State:
 def get_successors(state):
     successors = []
 
-    for i in range(MAX_SIZE-1):
+    for i in range(MAX_SIZE - 1):
         newOrientation = list(state.orientation)
-        newOrientation[i], newOrientation[i+1] = newOrientation[i+1], newOrientation[i]
+        newOrientation[i], newOrientation[i + 1] = newOrientation[i + 1], newOrientation[i]
         successors.append(State(newOrientation))
 
     return successors
@@ -91,7 +91,7 @@ def print_board(state):
     board = [[' ' for i in range(MAX_SIZE)] for j in range(MAX_SIZE)]
 
     for i in range(MAX_SIZE):
-        board[ MAX_SIZE - arr[i] ][i] = 'Q'
+        board[MAX_SIZE - arr[i]][i] = 'Q'
 
     print("   +-----+-----+-----+-----+-----+-----+-----+-----+")
     for i in range(MAX_SIZE):
@@ -104,15 +104,17 @@ def print_board(state):
     print("      1     2     3     4     5     6     7     8   ")
 
 
+def main():
+    # array = [5, 1, 8, 4, 2, 7, 3, 6] one of the solutions
+    array = [1, 2, 3, 4, 5, 6, 7, 8]
+    print("Initial State: ")
+    initialState = State(array)
+    print_board(initialState)
+
+    print("Goal State: ")
+    goalState = best_first_search(initialState)
+    print_board(goalState)
+
+
 MAX_SIZE = 8
-
-# array = [5, 1, 8, 4, 2, 7, 3, 6]
-array = [1, 2, 3, 4, 5, 6, 7, 8]
-print("Initial State: ")
-initialState = State(array)
-print_board(initialState)
-
-
-print("Goal State: ")
-goalState = best_first_search(initialState)
-print_board(goalState)
+main()
