@@ -2,9 +2,8 @@ from functools import cmp_to_key
 
 
 class Board:
-    def __init__(self, currentBoard, blankTileIndex_row, blankTileIndex_col, blankTileStatus, goalBoard):
+    def __init__(self, currentBoard, blankTileIndex_row, blankTileIndex_col, blankTileStatus):
         self.currentBoard = currentBoard
-        self.goalBoard = goalBoard
         self.blankTileIndex_row = blankTileIndex_row
         self.blankTileIndex_col = blankTileIndex_col
         self.blankTileStatus = blankTileStatus
@@ -13,7 +12,7 @@ class Board:
         self.parent_state = None
 
     def is_goal(self):
-        return self.currentBoard == self.goalBoard
+        return self.currentBoard == goal_board
 
     def isValid(self):
         return 0 <= self.blankTileIndex_row <= 2 and 0 <= self.blankTileIndex_col <= 2
@@ -28,26 +27,26 @@ class Board:
         count = 0
         for row in range(3):
             for col in range(3):
-                if self.currentBoard[row][col] != 0 and self.currentBoard[row][col] != self.goalBoard[row][col]:
+                if self.currentBoard[row][col] != 0 and self.currentBoard[row][col] != goal_board[row][col]:
                     count += 1
 
         self.misplacedTilesCount = count
 
     def set_manhattan_distance(self):
-        sum = 0
+        summ = 0
         for i in range(3):
             for j in range(3):
-                target = self.goalBoard[i][j]
+                target = goal_board[i][j]
                 for row in range(3):
                     flag = False
                     for col in range(3):
-                        if self.currentBoard[row][col]:
-                            sum += abs(i-row) + abs(j-col)
+                        if self.currentBoard[row][col] == target:
+                            summ += abs(i-row) + abs(j-col)
                             flag = True
                             break
                     if flag:
                         break
-        self.manhattan_distance = sum
+        self.manhattan_distance = summ
 
 
 def copy_board(current_board):
@@ -67,22 +66,22 @@ def get_successors(current_state):
     testAndAdd(successors, current_state, \
                Board(copy_board(current_state.currentBoard), current_state.blankTileIndex_row - 1,
                      current_state.blankTileIndex_col, \
-                     "Move blank tile UP", current_state.goalBoard), current_state.blankTileIndex_row,
+                     "Move blank tile UP"), current_state.blankTileIndex_row,
                current_state.blankTileIndex_col)
     testAndAdd(successors, current_state, \
                Board(copy_board(current_state.currentBoard), current_state.blankTileIndex_row + 1,
                      current_state.blankTileIndex_col, \
-                     "Move blank tile DOWN", current_state.goalBoard), current_state.blankTileIndex_row,
+                     "Move blank tile DOWN"), current_state.blankTileIndex_row,
                current_state.blankTileIndex_col)
     testAndAdd(successors, current_state, \
                Board(copy_board(current_state.currentBoard), current_state.blankTileIndex_row,
                      current_state.blankTileIndex_col - 1, \
-                     "Move blank tile LEFT", current_state.goalBoard), current_state.blankTileIndex_row,
+                     "Move blank tile LEFT"), current_state.blankTileIndex_row,
                current_state.blankTileIndex_col)
     testAndAdd(successors, current_state, \
                Board(copy_board(current_state.currentBoard), current_state.blankTileIndex_row,
                      current_state.blankTileIndex_col + 1, \
-                     "Move blank tile RIGHT", current_state.goalBoard), current_state.blankTileIndex_row,
+                     "Move blank tile RIGHT"), current_state.blankTileIndex_row,
                current_state.blankTileIndex_col)
     return successors
 
@@ -152,11 +151,23 @@ def print_solution(solution):
         print_board(state.currentBoard)
 
 
-# initial_board = [[6, 0, 2], [1, 8, 4], [7, 3, 5]]
-initial_board = [[1,2,3],[4,8,0],[7,6,5]]
-goal_board = [[1,2,3],[4,5,6],[7,8,0]]
-# goal_board = [[1, 2, 3], [8, 0, 4], [7, 6, 5]]
+def main():
+    initial_board = [[6, 0, 2], [1, 8, 4], [7, 3, 5]]
+    blank_tile_row, blank_tile_col = -1, -1
 
-ini_state = Board(initial_board, 1, 2, "Start", goal_board)
+    for i in range(3):
+        for j in range(3):
+            if initial_board[i][j] == 0:
+                blank_tile_row, blank_tile_col = i, j
+                break
+        if blank_tile_row > -1:
+            break
 
-print_solution(best_first_search(ini_state))
+    ini_state = Board(initial_board, blank_tile_row, blank_tile_col, "Start")
+
+    print_solution(best_first_search(ini_state))
+
+
+goal_board = [[1, 2, 3], [8, 0, 4], [7, 6, 5]]
+
+main()
