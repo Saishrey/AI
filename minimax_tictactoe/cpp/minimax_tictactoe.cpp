@@ -38,7 +38,10 @@ int find_best_move() {
     int best_val = INT_MIN;
     int best_move = -1;
     if(available_moves(board).size() == 9) {
-        return 4;
+        vector<int> moves = available_moves(board);
+        int random = rand() % moves.size();
+        int move = moves[random];
+        return move;
     }
     else {
         vector<char> current_board; 
