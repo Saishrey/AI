@@ -54,16 +54,16 @@ def is_moves_left(current_board):
     return current_board.count(" ") > 0
 
 
-def empty_squares():
-    return board.count(' ')
+def empty_squares(current_board):
+    return current_board.count(' ')
 
 
 def evaluate(current_board):
     for combination in combinations:
         if current_board[combination[0]] == current_board[combination[1]] == current_board[combination[2]] == computer:
-            return empty_squares() + 1
+            return empty_squares(current_board) + 1
         if current_board[combination[0]] == current_board[combination[1]] == current_board[combination[2]] == human:
-            return -(empty_squares() + 1)
+            return -(empty_squares(current_board) + 1)
     return 0
 
 
@@ -71,9 +71,14 @@ def available_moves(current_board):
     return [i for i in range(9) if current_board[i] == ' ']
 
 
+def strike(text):
+    return '' + (text + u'\u0336')
+
+
 def check_winner(player):
     for combination in combinations:
         if board[combination[0]] == board[combination[1]] == board[combination[2]] == player:
+            board[combination[0]] = board[combination[1]] = board[combination[2]] = strike(player)
             return True
     return False
 
@@ -104,10 +109,7 @@ def is_move_available(move):
 
 def change_player_turn():
     global player_turn
-    if player_turn == human:
-        player_turn = computer
-    else:
-        player_turn =  human
+    player_turn = computer if player_turn == human else human
 
 
 def play():
@@ -123,19 +125,21 @@ def play():
 
             print(human + " makes move at: " + str(human_move))
             board[human_move] = player_turn
-            print_board()
             if check_winner(player_turn):
+                print_board()
                 print(player_turn + " wins")
-                break
+                return
+            print_board()
         else:
             time.sleep(.8)
             computer_move = find_best_move()
             print(computer + " makes move at: " + str(computer_move))
             board[computer_move] = computer
-            print_board()
             if check_winner(player_turn):
+                print_board()
                 print(player_turn + " wins")
-                break
+                return
+            print_board()
 
         change_player_turn()
 
@@ -152,7 +156,7 @@ computer = "o" if human == "x" else "x"
 
 player_turn = human if human == "x" else computer
 
-print("\nYou play as : " + human)
+print("\nYou play as : " + human )
 print("Computer play as : " + computer)
 
 play()
