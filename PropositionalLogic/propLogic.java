@@ -146,7 +146,6 @@ public class Main {
 
         System.out.println("(Use + for OR, * for AND, ~for NOT");
         System.out.print("Enter the wff: ");
-        //getline(cin,infix);
 
         String infix = scanner.next();
 
