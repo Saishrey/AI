@@ -109,7 +109,7 @@ public class Main {
                 System.out.println("True");
             }
             else {
-                System.out.println("False\t");
+                System.out.println("False");
             }
         }
         return c != 0;
