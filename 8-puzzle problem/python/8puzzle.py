@@ -14,13 +14,10 @@ class Board:
     def is_goal(self):
         return self.currentBoard == goal_board
 
-    def isValid(self):
-        return 0 <= self.blankTileIndex_row <= 2 and 0 <= self.blankTileIndex_col <= 2
-
-    def swapTiles(self, newBlankTilePosition_row, newBlankTilePosition_col):
+    def swapTiles(self, oldBlankTilePosition_row, oldBlankTilePosition_col):
         self.currentBoard[self.blankTileIndex_row][self.blankTileIndex_col], \
-        self.currentBoard[newBlankTilePosition_row][newBlankTilePosition_col] = \
-            self.currentBoard[newBlankTilePosition_row][newBlankTilePosition_col], \
+        self.currentBoard[oldBlankTilePosition_row][oldBlankTilePosition_col] = \
+            self.currentBoard[oldBlankTilePosition_row][oldBlankTilePosition_col], \
             self.currentBoard[self.blankTileIndex_row][self.blankTileIndex_col]
 
     def setMisplacedTilesCount(self):
@@ -49,28 +46,32 @@ class Board:
         self.manhattan_distance = summ
 
 
+def isValid(row, col):
+        return 0 <= row <= 2 and 0 <= col <= 2
+
+
 def copy_board(current_board):
     return [[current_board[row][col] for col in range(3)] for row in range(3)]
 
 
-def testAndAdd(successors, current_state, other, b_row, b_col):
-    if other.isValid():
-        other.swapTiles(b_row, b_col)
-        other.parent_state = current_state
-        other.setMisplacedTilesCount()
-        successors.append(other)
-
 
 def get_successors(current_state):
     successors = []
+    mapp = {(-1, 0) : 'UP', (1, 0) : 'DOWN', (0, -1) : 'LEFT', (0, 1) : 'RIGHT'}
     generators = [[-1, 0], [1, 0], [0, -1], [0, 1]]
 
     for generator in generators:
-        testAndAdd(successors, current_state, \
-               Board(copy_board(current_state.currentBoard), current_state.blankTileIndex_row + generator[0],
-                     current_state.blankTileIndex_col + generator[1], \
-                     "Move blank tile UP"), current_state.blankTileIndex_row,
-               current_state.blankTileIndex_col)
+
+        newBlankTilePosition_row = current_state.blankTileIndex_row + generator[0]
+        newBlankTilePosition_col = current_state.blankTileIndex_col + generator[1]
+
+        if isValid(newBlankTilePosition_row, newBlankTilePosition_col):
+            new_board = Board(copy_board(current_state.currentBoard), newBlankTilePosition_row, newBlankTilePosition_col, "Move blank tile {}".format(mapp[tuple(generator)]))
+            new_board.swapTiles(current_state.blankTileIndex_row, current_state.blankTileIndex_col)
+            new_board.parent_state =current_state
+            new_board.setMisplacedTilesCount()
+            successors.append(new_board)
+
     return successors
 
 # Using misplaced tiles
