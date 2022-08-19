@@ -11,20 +11,20 @@ class State:
     def set_fitness(self):
         noOfClashes = 0
         for i in range(MAX_SIZE - 1):
-            up = self.orientation[i] + 1
-            down = self.orientation[i] - 1
+            up = MAX_SIZE - self.orientation[i] - 1
+            down = MAX_SIZE - self.orientation[i] + 1
             for j in range(i + 1, MAX_SIZE):
-                if down < 1 and up > MAX_SIZE:
+                if up < 0 and down >= MAX_SIZE:
                     break
 
-                if down >= 1 and self.orientation[j] == down:
+                if up >= 0 and (MAX_SIZE - self.orientation[j] == up):
                     noOfClashes += 1
 
-                if up < MAX_SIZE and self.orientation[j] == up:
+                if down < MAX_SIZE and (MAX_SIZE - self.orientation[j] == down):
                     noOfClashes += 1
 
-                up += 1
-                down -= 1
+                up -= 1
+                down += 1
 
         return self.MAX_FITNESS - noOfClashes
 
