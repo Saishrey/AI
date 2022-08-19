@@ -96,21 +96,21 @@ def best_first_search(initial_state):
         return initial_state
 
     initial_state.setMisplacedTilesCount()
-    visited = list()
-    frontier = list()
-    frontier.append(initial_state)
+    closed = list()
+    open = list()
+    open.append(initial_state)
 
-    while frontier:
-        state = frontier.pop(0)
-        visited.append(list(state.currentBoard))
+    while open:
+        state = open.pop(0)
+        closed.append(list(state.currentBoard))
         successors = get_successors(state)
         for child in successors:
-            if list(child.currentBoard) not in visited:
+            if list(child.currentBoard) not in closed:
                 if child.is_goal():
                     return child
-                frontier.append(child)
+                open.append(child)
 
-        frontier = sorted(frontier, key=cmp_to_key(compare))
+        open = sorted(open, key=cmp_to_key(compare))
     return None
 
 
