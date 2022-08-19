@@ -63,25 +63,13 @@ def testAndAdd(successors, current_state, other, b_row, b_col):
 
 def get_successors(current_state):
     successors = []
-    testAndAdd(successors, current_state, \
-               Board(copy_board(current_state.currentBoard), current_state.blankTileIndex_row - 1,
-                     current_state.blankTileIndex_col, \
+    generators = [[-1, 0], [1, 0], [0, -1], [0, 1]]
+
+    for generator in generators:
+        testAndAdd(successors, current_state, \
+               Board(copy_board(current_state.currentBoard), current_state.blankTileIndex_row + generator[0],
+                     current_state.blankTileIndex_col + generator[1], \
                      "Move blank tile UP"), current_state.blankTileIndex_row,
-               current_state.blankTileIndex_col)
-    testAndAdd(successors, current_state, \
-               Board(copy_board(current_state.currentBoard), current_state.blankTileIndex_row + 1,
-                     current_state.blankTileIndex_col, \
-                     "Move blank tile DOWN"), current_state.blankTileIndex_row,
-               current_state.blankTileIndex_col)
-    testAndAdd(successors, current_state, \
-               Board(copy_board(current_state.currentBoard), current_state.blankTileIndex_row,
-                     current_state.blankTileIndex_col - 1, \
-                     "Move blank tile LEFT"), current_state.blankTileIndex_row,
-               current_state.blankTileIndex_col)
-    testAndAdd(successors, current_state, \
-               Board(copy_board(current_state.currentBoard), current_state.blankTileIndex_row,
-                     current_state.blankTileIndex_col + 1, \
-                     "Move blank tile RIGHT"), current_state.blankTileIndex_row,
                current_state.blankTileIndex_col)
     return successors
 
