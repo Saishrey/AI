@@ -3,9 +3,8 @@ from functools import cmp_to_key
 
 
 class GraphNode:
-    def __init__(self, name, index, heuristic):
+    def __init__(self, name, heuristic):
         self.name = name
-        self.index = index
         self.H = heuristic
         self.F = math.inf
         self.G = math.inf
@@ -116,7 +115,7 @@ mapp = {}
 print('Enter (Node_Name Heuristic_Value) space separated:\nNOTE: Enter Node names in Capital Letters: ')
 for i in range(no_of_nodes):
     name, heuristic = input('Node {}: '.format(str(i+1))).split(' ')
-    node = GraphNode(name, i, int(heuristic))
+    node = GraphNode(name, int(heuristic))
     node_list.append(node)
     mapp[name] = i
 
@@ -139,4 +138,3 @@ goal = input("Name of Goal Node: ")
 solution = search(node_list[mapp[start]], node_list[mapp[goal]])
 
 print_solution(solution)
-
