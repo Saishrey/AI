@@ -55,21 +55,21 @@ def best_first_search(initial_state):
     if initial_state.is_goal():
         return initial_state
 
-    visited = list()
-    frontier = list()
-    frontier.append(initial_state)
-    while frontier:
-        state = frontier.pop(0)
-        visited.append(list(state.orientation))
+    closed = list()
+    open = list()
+    open.append(initial_state)
+    while open:
+        state = open.pop(0)
+        closed.append(list(state.orientation))
 
         successors = get_successors(state)
         for child in successors:
-            if list(child.orientation) not in visited:
+            if list(child.orientation) not in closed:
                 if child.is_goal():
                     return child
-                frontier.append(child)
+                open.append(child)
 
-        frontier = sorted(frontier, key=cmp_to_key(compare))
+        open = sorted(open, key=cmp_to_key(compare))
     return None
 
 
