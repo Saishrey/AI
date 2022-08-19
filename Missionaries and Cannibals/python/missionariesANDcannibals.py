@@ -113,18 +113,19 @@ def dfs(state, depthLevel):
 def breadth_first_search(initial_state):
     if initial_state.is_goal():
         return initial_state
-    frontier = list()
-    explored = set()
-    frontier.append(initial_state)
-    while frontier:
-        state = frontier.pop(0)
-        if state.is_goal():
-            return state
-        explored.add(state)
+    open = list()
+    closed = set()
+    open.append(initial_state)
+    while open:
+        state = open.pop(0)
+        closed.add(state)
+
         children = successors(state)
         for child in children:
-            if (child not in explored) or (child not in frontier):
-                frontier.append(child)
+            if child.is_goal():
+                return child
+            if (child not in closed) or (child not in open):
+                open.append(child)
     return None
 
 
