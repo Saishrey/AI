@@ -19,68 +19,33 @@ class State:
 
 def successors(cur_state):
     children = []
+
+    generators_right = [[0, -2, 0, 2],
+                        [-2, 0, 2, 0],
+                        [-1, -1, 1, 1],
+                        [0, -1, 0, 1],
+                        [-1, 0, 1, 0]]
+
+    generators_left =  [[0, 2, 0, -2],
+                        [2, 0, -2, 0],
+                        [1, 1, -1, -1],
+                        [0, 1, 0, -1],
+                        [1, 0, -1, 0]]
+
     if cur_state.boatPosition == 'left':
-        new_state = State(cur_state.cannibalLeft, cur_state.missionaryLeft - 2, 'right',
-                          cur_state.cannibalRight, cur_state.missionaryRight + 2)
-        ## Two missionaries cross left to right.
-        if new_state.is_valid():
-            new_state.parent = cur_state
-            children.append(new_state)
-        new_state = State(cur_state.cannibalLeft - 2, cur_state.missionaryLeft, 'right',
-                          cur_state.cannibalRight + 2, cur_state.missionaryRight)
-        ## Two cannibals cross left to right.
-        if new_state.is_valid():
-            new_state.parent = cur_state
-            children.append(new_state)
-        new_state = State(cur_state.cannibalLeft - 1, cur_state.missionaryLeft - 1, 'right',
-                          cur_state.cannibalRight + 1, cur_state.missionaryRight + 1)
-        ## One missionary and one cannibal cross left to right.
-        if new_state.is_valid():
-            new_state.parent = cur_state
-            children.append(new_state)
-        new_state = State(cur_state.cannibalLeft, cur_state.missionaryLeft - 1, 'right',
-                          cur_state.cannibalRight, cur_state.missionaryRight + 1)
-        ## One missionary crosses left to right.
-        if new_state.is_valid():
-            new_state.parent = cur_state
-            children.append(new_state)
-        new_state = State(cur_state.cannibalLeft - 1, cur_state.missionaryLeft, 'right',
-                          cur_state.cannibalRight + 1, cur_state.missionaryRight)
-        ## One cannibal crosses left to right.
-        if new_state.is_valid():
-            new_state.parent = cur_state
-            children.append(new_state)
+        for generator in generators_right:
+            new_state = State(cur_state.cannibalLeft + generator[0], cur_state.missionaryLeft + generator[1], 'right',
+                              cur_state.cannibalRight + generator[2], cur_state.missionaryRight + generator[3])
+            if new_state.is_valid():
+                new_state.parent = cur_state
+                children.append(new_state)
     else:
-        new_state = State(cur_state.cannibalLeft, cur_state.missionaryLeft + 2, 'left',
-                          cur_state.cannibalRight, cur_state.missionaryRight - 2)
-        ## Two missionaries cross right to left.
-        if new_state.is_valid():
-            new_state.parent = cur_state
-            children.append(new_state)
-        new_state = State(cur_state.cannibalLeft + 2, cur_state.missionaryLeft, 'left',
-                          cur_state.cannibalRight - 2, cur_state.missionaryRight)
-        ## Two cannibals cross right to left.
-        if new_state.is_valid():
-            new_state.parent = cur_state
-            children.append(new_state)
-        new_state = State(cur_state.cannibalLeft + 1, cur_state.missionaryLeft + 1, 'left',
-                          cur_state.cannibalRight - 1, cur_state.missionaryRight - 1)
-        ## One missionary and one cannibal cross right to left.
-        if new_state.is_valid():
-            new_state.parent = cur_state
-            children.append(new_state)
-        new_state = State(cur_state.cannibalLeft, cur_state.missionaryLeft + 1, 'left',
-                          cur_state.cannibalRight, cur_state.missionaryRight - 1)
-        ## One missionary crosses right to left.
-        if new_state.is_valid():
-            new_state.parent = cur_state
-            children.append(new_state)
-        new_state = State(cur_state.cannibalLeft + 1, cur_state.missionaryLeft, 'left',
-                          cur_state.cannibalRight - 1, cur_state.missionaryRight)
-        ## One cannibal crosses right to left.
-        if new_state.is_valid():
-            new_state.parent = cur_state
-            children.append(new_state)
+        for generator in generators_left:
+            new_state = State(cur_state.cannibalLeft + generator[0], cur_state.missionaryLeft + generator[1], 'left',
+                              cur_state.cannibalRight + generator[2], cur_state.missionaryRight + generator[3])
+            if new_state.is_valid():
+                new_state.parent = cur_state
+                children.append(new_state)
     return children
 
 
